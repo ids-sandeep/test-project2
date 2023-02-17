@@ -1,0 +1,67 @@
+<div class="data_table">
+<h1 style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 55%;">welcome to employe records</h1>
+
+<head>
+  <style>
+	.search-form-container {
+		float: right;
+		margin-right: 20px;
+		width: 50%;
+	}
+	.data_table{
+		width:80%; 
+    margin-left:23%; 
+    margin-right:15%;
+	}
+
+	a {
+		text-decoration: none;
+	}
+	</style>
+</head>
+<table border>
+	<thead>
+		<tr>
+		  <th><%= link_to Employe.human_attribute_name(:name), {sort: 'name', direction: params[:direction] == 'asc' ? 'desc' : 'asc'} %></th>
+			<th><%= link_to Employe.human_attribute_name(:age), {sort: 'age', direction: params[:direction] == 'asc' ? 'desc' : 'asc'} %></th>
+			<th><%= link_to Employe.human_attribute_name(:salary), {sort: 'salary', direction: params[:direction] == 'asc' ? 'desc' : 'asc'} %></th>
+			<th><%= Employe.human_attribute_name(:position) %></th>
+			<th><%= Employe.human_attribute_name(:gender) %></th>
+			<th><%= link_to Employe.human_attribute_name(:hobby),{sort: 'hobby',direction:params[:direction]=='asc' ? 'desc': 'asc'} %></th>
+			<th style="width:300px"><%= Employe.human_attribute_name(:description) %></th>
+			<th colspan="2" >Actions</th>
+		</tr>
+	</thead>
+  <tbody>
+		<% @employes.each do|emp|%>
+			<tr>
+			  <td style=" text-decoration: none;"><%= link_to emp.name,employe_path(emp)%> </td>
+				<td><%= emp.age %></td>
+				<td><%= number_to_currency(emp.salary) %></td>
+				<td><%= emp.position %></td>
+				<td><%= emp.gender %></td>
+				<td><%= emp.hobby.present? ? emp.hobby.split(',').map(&:strip).map(&:capitalize).join(', ').delete('[]"') : '' %></td>
+				<td><%= emp.description %></td>
+				<td><%= button_to 'Edit', edit_employe_path(emp), method:'get'%> 
+				<td><%= button_to 'delete', employe_path(emp), method:'delete',data:{confirm:'Are you sure?'}%> </td>
+			</tr>
+		<% end %>
+	</tbody>
+	<%= button_to "Add Employee", new_employe_path, method: :get %>
+	<div class="search-form-container">
+		<%= form_tag employes_path, method: 'get', id: 'employe_search_form', class: 'form-inline' do %>
+			<%= text_field_tag :search, params[:search], placeholder: 'Search by name' %>
+			<%= submit_tag 'Search', id: 'employe_search_btn', class: 'btn btn-primary', onclick: 'submitSearchForm()' %>
+		<% end %>
+	</div>
+	<script>
+		function submitSearchForm() {
+			document.getElementById('employe_search_form').submit();
+		}
+  </script>
+</table>
+</div>
+

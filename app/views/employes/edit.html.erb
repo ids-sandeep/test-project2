@@ -1,0 +1,31 @@
+<h1>Update Employes Record </h1>
+<%= form_with model:@employe do |f|%>
+	<%= f.label :name, "Name" %>
+	<%= f.text_field:name,placeholder:"Enter your name" %><br>
+
+	<%= f.label :age, "Age" %>
+	<%= f.number_field :age %><br>
+
+	<%= f.label :salary, "Salary" %>
+	<%= f.number_field :salary, value: number_to_currency(f.object.salary, unit: "₹", format: "%u%n", separator: ".", delimiter: ",", precision: 2, step: 0.01) %><br>
+	
+	<%= f.label :position, "Position" %>
+	<%= f.select :position, options_for_select(['select','Manager', 'Developer', 'Designer','intern']), {}, {class: 'form-control'} %><br>
+	
+	<%= f.label :Gender, "Gender" %><br>
+	<%= f.radio_button :gender, 'male' %> Male <br/>
+  <%= f.radio_button :gender, 'female' %> Female<br />
+
+	<%= f.label :hobby %><br>
+	<% ['Soccer', 'Volley Ball', 'Reading'].each do |hobby| %>
+		<%= f.check_box :hobby, { multiple: true }, hobby, nil %>
+		<%= hobby %><br>
+	<% end %>
+
+	<%= f.label :description %><br>
+	<%= f.text_area :description, :cols => 30, :rows => 10 %><br>
+  
+	<%= f.submit %>
+
+<% end %>
+
